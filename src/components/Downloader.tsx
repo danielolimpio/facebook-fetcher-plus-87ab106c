@@ -1,14 +1,15 @@
 import { useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
 import { Link as LinkIcon, Download, ClipboardPaste, Loader2, CheckCircle2 } from "lucide-react";
 import { addDownload, detectType, isValidFacebookUrl } from "@/lib/downloads-store";
+import { extractFacebookVideo, type FbExtractResult } from "@/lib/facebook.functions";
 import { toast } from "sonner";
 
-const QUALITIES = ["HD 1080p", "2K", "4K", "SD 480p", "Áudio MP3"];
-
 export function Downloader() {
+  const extract = useServerFn(extractFacebookVideo);
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<{ title: string; quality: string } | null>(null);
+  const [result, setResult] = useState<FbExtractResult | null>(null);
 
   const handlePaste = async () => {
     try {
@@ -19,42 +20,41 @@ export function Downloader() {
     }
   };
 
-  const handleDownload = async () => {
-    if (!url.trim()) {
-      toast.error("Cole um link do Facebook");
-      return;
-    }
-    if (!isValidFacebookUrl(url)) {
-      toast.error("Link inválido. Use uma URL do Facebook.");
-      return;
-    }
+  const handleFetch = async () => {
+    if (!url.trim()) return toast.error("Cole um link do Facebook");
+    if (!isValidFacebookUrl(url)) return toast.error("Link inválido. Use uma URL do Facebook.");
     setLoading(true);
     setResult(null);
-    // Simulação de processamento (servidor real exigiria scraping próprio do Facebook)
-    await new Promise((r) => setTimeout(r, 1400));
-    const type = detectType(url);
-    const titleMap = {
-      video: "Vídeo do Facebook",
-      reel: "Reel do Facebook",
-      story: "Story do Facebook",
-      photo: "Foto do Facebook",
-      audio: "Áudio do Facebook",
-    } as const;
-    const title = titleMap[type];
-    setLoading(false);
-    setResult({ title, quality: "HD 1080p" });
-    toast.success("Vídeo pronto para download!");
+    try {
+      const data = await extract({ data: { url: url.trim() } });
+      setResult(data);
+      toast.success("Vídeo encontrado! Escolha a qualidade.");
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : "Falha ao processar o link";
+      toast.error(msg);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const saveQuality = (q: string) => {
-    if (!result) return;
+  const triggerDownload = (videoUrl: string, qualityLabel: string) => {
+    const safeName = (result?.title || "facebook-video").slice(0, 60).replace(/[^\w\-]+/g, "_");
+    const href = `/api/public/fb-download?u=${encodeURIComponent(videoUrl)}&name=${encodeURIComponent(safeName)}`;
+    const a = document.createElement("a");
+    a.href = href;
+    a.rel = "noopener";
+    a.download = `${safeName}.mp4`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
     addDownload({
       url,
-      title: result.title,
+      title: result?.title || "Vídeo do Facebook",
       type: detectType(url),
-      quality: q,
+      quality: qualityLabel,
+      thumbnail: result?.thumbnail,
     });
-    toast.success(`Adicionado ao histórico em ${q}`);
+    toast.success(`Baixando em ${qualityLabel}`);
   };
 
   return (
@@ -64,7 +64,7 @@ export function Downloader() {
         <input
           value={url}
           onChange={(e) => setUrl(e.target.value)}
-          placeholder="Cole o link do Reels ou Stories aqui..."
+          placeholder="Cole o link do vídeo, Reel ou Story do Facebook..."
           className="h-14 w-full rounded-xl border border-input bg-card pl-12 pr-12 text-base text-foreground shadow-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
         />
         <button
@@ -77,7 +77,7 @@ export function Downloader() {
       </div>
 
       <button
-        onClick={handleDownload}
+        onClick={handleFetch}
         disabled={loading}
         className="flex h-14 w-full items-center justify-center gap-2 rounded-xl bg-primary text-base font-semibold text-primary-foreground shadow-sm transition hover:opacity-95 disabled:opacity-70"
       >
@@ -85,22 +85,34 @@ export function Downloader() {
         {loading ? "Processando..." : "Baixar Agora"}
       </button>
 
-      {result && (
+      {result && (result.hd || result.sd) && (
         <div className="rounded-xl border border-border bg-card p-4 shadow-sm">
-          <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-foreground">
-            <CheckCircle2 className="h-5 w-5 text-[color:var(--success)]" />
-            {result.title} — escolha a qualidade
+          <div className="mb-3 flex items-center gap-3">
+            {result.thumbnail && (
+              <img src={result.thumbnail} alt="" className="h-16 w-24 rounded-md object-cover" />
+            )}
+            <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
+              <CheckCircle2 className="h-5 w-5 text-[color:var(--success)]" />
+              {result.title}
+            </div>
           </div>
           <div className="flex flex-wrap gap-2">
-            {QUALITIES.map((q) => (
+            {result.hd && (
               <button
-                key={q}
-                onClick={() => saveQuality(q)}
-                className="rounded-lg border border-border bg-background px-3 py-2 text-sm font-medium text-foreground transition hover:border-primary hover:text-primary"
+                onClick={() => triggerDownload(result.hd!, "HD 1080p")}
+                className="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:opacity-95"
               >
-                {q}
+                Baixar HD
               </button>
-            ))}
+            )}
+            {result.sd && (
+              <button
+                onClick={() => triggerDownload(result.sd!, "SD 480p")}
+                className="rounded-lg border border-border bg-background px-4 py-2 text-sm font-medium text-foreground hover:border-primary hover:text-primary"
+              >
+                Baixar SD
+              </button>
+            )}
           </div>
         </div>
       )}

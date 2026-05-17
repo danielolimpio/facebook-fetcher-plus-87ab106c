@@ -24,6 +24,7 @@ import { Route as BaixarTiktokRouteImport } from './routes/baixar-tiktok'
 import { Route as BaixarKwaiRouteImport } from './routes/baixar-kwai'
 import { Route as BaixarInstagramRouteImport } from './routes/baixar-instagram'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiPublicFbDownloadRouteImport } from './routes/api/public/fb-download'
 
 const UsoResponsavelRoute = UsoResponsavelRouteImport.update({
   id: '/uso-responsavel',
@@ -100,6 +101,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicFbDownloadRoute = ApiPublicFbDownloadRouteImport.update({
+  id: '/api/public/fb-download',
+  path: '/api/public/fb-download',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -117,6 +123,7 @@ export interface FileRoutesByFullPath {
   '/sobre': typeof SobreRoute
   '/termos': typeof TermosRoute
   '/uso-responsavel': typeof UsoResponsavelRoute
+  '/api/public/fb-download': typeof ApiPublicFbDownloadRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -134,6 +141,7 @@ export interface FileRoutesByTo {
   '/sobre': typeof SobreRoute
   '/termos': typeof TermosRoute
   '/uso-responsavel': typeof UsoResponsavelRoute
+  '/api/public/fb-download': typeof ApiPublicFbDownloadRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -152,6 +160,7 @@ export interface FileRoutesById {
   '/sobre': typeof SobreRoute
   '/termos': typeof TermosRoute
   '/uso-responsavel': typeof UsoResponsavelRoute
+  '/api/public/fb-download': typeof ApiPublicFbDownloadRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -171,6 +180,7 @@ export interface FileRouteTypes {
     | '/sobre'
     | '/termos'
     | '/uso-responsavel'
+    | '/api/public/fb-download'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -188,6 +198,7 @@ export interface FileRouteTypes {
     | '/sobre'
     | '/termos'
     | '/uso-responsavel'
+    | '/api/public/fb-download'
   id:
     | '__root__'
     | '/'
@@ -205,6 +216,7 @@ export interface FileRouteTypes {
     | '/sobre'
     | '/termos'
     | '/uso-responsavel'
+    | '/api/public/fb-download'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -223,6 +235,7 @@ export interface RootRouteChildren {
   SobreRoute: typeof SobreRoute
   TermosRoute: typeof TermosRoute
   UsoResponsavelRoute: typeof UsoResponsavelRoute
+  ApiPublicFbDownloadRoute: typeof ApiPublicFbDownloadRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -332,6 +345,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/fb-download': {
+      id: '/api/public/fb-download'
+      path: '/api/public/fb-download'
+      fullPath: '/api/public/fb-download'
+      preLoaderRoute: typeof ApiPublicFbDownloadRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -351,6 +371,7 @@ const rootRouteChildren: RootRouteChildren = {
   SobreRoute: SobreRoute,
   TermosRoute: TermosRoute,
   UsoResponsavelRoute: UsoResponsavelRoute,
+  ApiPublicFbDownloadRoute: ApiPublicFbDownloadRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

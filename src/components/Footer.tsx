@@ -1,15 +1,13 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowDownToLine } from "lucide-react";
 import { FOOTER_LINKS, OTHER_DOWNLOADERS, SITE } from "@/lib/site-data";
+import logoFb from "@/assets/logo-facebook-download.png";
 
 export function Footer() {
   return (
     <footer className="mt-12 border-t border-border bg-card">
       <div className="mx-auto max-w-5xl px-6 py-10 text-center">
         <div className="mb-4 flex items-center justify-center gap-2">
-          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-            <ArrowDownToLine className="h-4 w-4" />
-          </span>
+          <img src={logoFb} alt="Baixar Vídeos Facebook" width={32} height={32} className="h-8 w-8 rounded-lg" />
           <span className="font-bold">BaixarVideosFacebook</span>
         </div>
         <p className="mx-auto max-w-2xl text-sm text-muted-foreground">

@@ -1,7 +1,8 @@
 import { Link, useLocation } from "@tanstack/react-router";
-import { Home, Download, Settings, HelpCircle, ArrowDownToLine, ExternalLink } from "lucide-react";
+import { Home, Download, Settings, HelpCircle, ExternalLink } from "lucide-react";
 import { OTHER_DOWNLOADERS, SITE } from "@/lib/site-data";
 import { cn } from "@/lib/utils";
+import logoFb from "@/assets/logo-facebook-download.png";
 
 const NAV = [
   { label: "Home", href: "/", icon: Home },
@@ -17,9 +18,7 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
   return (
     <aside className="flex h-full w-64 flex-col border-r border-sidebar-border bg-sidebar">
       <div className="flex items-center gap-3 border-b border-sidebar-border px-5 py-5">
-        <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm">
-          <ArrowDownToLine className="h-6 w-6" />
-        </div>
+        <img src={logoFb} alt="Baixar Vídeos Facebook" width={44} height={44} className="h-11 w-11 shrink-0 rounded-xl shadow-sm" />
         <div>
           <div className="font-bold leading-tight text-foreground">{SITE.brand}</div>
           <div className="text-xs text-muted-foreground">{SITE.brandSub}</div>
