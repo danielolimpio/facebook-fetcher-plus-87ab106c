@@ -9,8 +9,92 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as UsoResponsavelRouteImport } from './routes/uso-responsavel'
+import { Route as TermosRouteImport } from './routes/termos'
+import { Route as SobreRouteImport } from './routes/sobre'
+import { Route as PrivacidadeRouteImport } from './routes/privacidade'
+import { Route as FaqRouteImport } from './routes/faq'
+import { Route as DownloadsRouteImport } from './routes/downloads'
+import { Route as DmcaRouteImport } from './routes/dmca'
+import { Route as ContatoRouteImport } from './routes/contato'
+import { Route as ConfiguracoesRouteImport } from './routes/configuracoes'
+import { Route as BaixarYoutubeRouteImport } from './routes/baixar-youtube'
+import { Route as BaixarTwitterRouteImport } from './routes/baixar-twitter'
+import { Route as BaixarTiktokRouteImport } from './routes/baixar-tiktok'
+import { Route as BaixarKwaiRouteImport } from './routes/baixar-kwai'
+import { Route as BaixarInstagramRouteImport } from './routes/baixar-instagram'
 import { Route as IndexRouteImport } from './routes/index'
 
+const UsoResponsavelRoute = UsoResponsavelRouteImport.update({
+  id: '/uso-responsavel',
+  path: '/uso-responsavel',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermosRoute = TermosRouteImport.update({
+  id: '/termos',
+  path: '/termos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SobreRoute = SobreRouteImport.update({
+  id: '/sobre',
+  path: '/sobre',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacidadeRoute = PrivacidadeRouteImport.update({
+  id: '/privacidade',
+  path: '/privacidade',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FaqRoute = FaqRouteImport.update({
+  id: '/faq',
+  path: '/faq',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DownloadsRoute = DownloadsRouteImport.update({
+  id: '/downloads',
+  path: '/downloads',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DmcaRoute = DmcaRouteImport.update({
+  id: '/dmca',
+  path: '/dmca',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContatoRoute = ContatoRouteImport.update({
+  id: '/contato',
+  path: '/contato',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConfiguracoesRoute = ConfiguracoesRouteImport.update({
+  id: '/configuracoes',
+  path: '/configuracoes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BaixarYoutubeRoute = BaixarYoutubeRouteImport.update({
+  id: '/baixar-youtube',
+  path: '/baixar-youtube',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BaixarTwitterRoute = BaixarTwitterRouteImport.update({
+  id: '/baixar-twitter',
+  path: '/baixar-twitter',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BaixarTiktokRoute = BaixarTiktokRouteImport.update({
+  id: '/baixar-tiktok',
+  path: '/baixar-tiktok',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BaixarKwaiRoute = BaixarKwaiRouteImport.update({
+  id: '/baixar-kwai',
+  path: '/baixar-kwai',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BaixarInstagramRoute = BaixarInstagramRouteImport.update({
+  id: '/baixar-instagram',
+  path: '/baixar-instagram',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -19,28 +103,228 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/baixar-instagram': typeof BaixarInstagramRoute
+  '/baixar-kwai': typeof BaixarKwaiRoute
+  '/baixar-tiktok': typeof BaixarTiktokRoute
+  '/baixar-twitter': typeof BaixarTwitterRoute
+  '/baixar-youtube': typeof BaixarYoutubeRoute
+  '/configuracoes': typeof ConfiguracoesRoute
+  '/contato': typeof ContatoRoute
+  '/dmca': typeof DmcaRoute
+  '/downloads': typeof DownloadsRoute
+  '/faq': typeof FaqRoute
+  '/privacidade': typeof PrivacidadeRoute
+  '/sobre': typeof SobreRoute
+  '/termos': typeof TermosRoute
+  '/uso-responsavel': typeof UsoResponsavelRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/baixar-instagram': typeof BaixarInstagramRoute
+  '/baixar-kwai': typeof BaixarKwaiRoute
+  '/baixar-tiktok': typeof BaixarTiktokRoute
+  '/baixar-twitter': typeof BaixarTwitterRoute
+  '/baixar-youtube': typeof BaixarYoutubeRoute
+  '/configuracoes': typeof ConfiguracoesRoute
+  '/contato': typeof ContatoRoute
+  '/dmca': typeof DmcaRoute
+  '/downloads': typeof DownloadsRoute
+  '/faq': typeof FaqRoute
+  '/privacidade': typeof PrivacidadeRoute
+  '/sobre': typeof SobreRoute
+  '/termos': typeof TermosRoute
+  '/uso-responsavel': typeof UsoResponsavelRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/baixar-instagram': typeof BaixarInstagramRoute
+  '/baixar-kwai': typeof BaixarKwaiRoute
+  '/baixar-tiktok': typeof BaixarTiktokRoute
+  '/baixar-twitter': typeof BaixarTwitterRoute
+  '/baixar-youtube': typeof BaixarYoutubeRoute
+  '/configuracoes': typeof ConfiguracoesRoute
+  '/contato': typeof ContatoRoute
+  '/dmca': typeof DmcaRoute
+  '/downloads': typeof DownloadsRoute
+  '/faq': typeof FaqRoute
+  '/privacidade': typeof PrivacidadeRoute
+  '/sobre': typeof SobreRoute
+  '/termos': typeof TermosRoute
+  '/uso-responsavel': typeof UsoResponsavelRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/baixar-instagram'
+    | '/baixar-kwai'
+    | '/baixar-tiktok'
+    | '/baixar-twitter'
+    | '/baixar-youtube'
+    | '/configuracoes'
+    | '/contato'
+    | '/dmca'
+    | '/downloads'
+    | '/faq'
+    | '/privacidade'
+    | '/sobre'
+    | '/termos'
+    | '/uso-responsavel'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/baixar-instagram'
+    | '/baixar-kwai'
+    | '/baixar-tiktok'
+    | '/baixar-twitter'
+    | '/baixar-youtube'
+    | '/configuracoes'
+    | '/contato'
+    | '/dmca'
+    | '/downloads'
+    | '/faq'
+    | '/privacidade'
+    | '/sobre'
+    | '/termos'
+    | '/uso-responsavel'
+  id:
+    | '__root__'
+    | '/'
+    | '/baixar-instagram'
+    | '/baixar-kwai'
+    | '/baixar-tiktok'
+    | '/baixar-twitter'
+    | '/baixar-youtube'
+    | '/configuracoes'
+    | '/contato'
+    | '/dmca'
+    | '/downloads'
+    | '/faq'
+    | '/privacidade'
+    | '/sobre'
+    | '/termos'
+    | '/uso-responsavel'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BaixarInstagramRoute: typeof BaixarInstagramRoute
+  BaixarKwaiRoute: typeof BaixarKwaiRoute
+  BaixarTiktokRoute: typeof BaixarTiktokRoute
+  BaixarTwitterRoute: typeof BaixarTwitterRoute
+  BaixarYoutubeRoute: typeof BaixarYoutubeRoute
+  ConfiguracoesRoute: typeof ConfiguracoesRoute
+  ContatoRoute: typeof ContatoRoute
+  DmcaRoute: typeof DmcaRoute
+  DownloadsRoute: typeof DownloadsRoute
+  FaqRoute: typeof FaqRoute
+  PrivacidadeRoute: typeof PrivacidadeRoute
+  SobreRoute: typeof SobreRoute
+  TermosRoute: typeof TermosRoute
+  UsoResponsavelRoute: typeof UsoResponsavelRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/uso-responsavel': {
+      id: '/uso-responsavel'
+      path: '/uso-responsavel'
+      fullPath: '/uso-responsavel'
+      preLoaderRoute: typeof UsoResponsavelRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/termos': {
+      id: '/termos'
+      path: '/termos'
+      fullPath: '/termos'
+      preLoaderRoute: typeof TermosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sobre': {
+      id: '/sobre'
+      path: '/sobre'
+      fullPath: '/sobre'
+      preLoaderRoute: typeof SobreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacidade': {
+      id: '/privacidade'
+      path: '/privacidade'
+      fullPath: '/privacidade'
+      preLoaderRoute: typeof PrivacidadeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/faq': {
+      id: '/faq'
+      path: '/faq'
+      fullPath: '/faq'
+      preLoaderRoute: typeof FaqRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/downloads': {
+      id: '/downloads'
+      path: '/downloads'
+      fullPath: '/downloads'
+      preLoaderRoute: typeof DownloadsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dmca': {
+      id: '/dmca'
+      path: '/dmca'
+      fullPath: '/dmca'
+      preLoaderRoute: typeof DmcaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contato': {
+      id: '/contato'
+      path: '/contato'
+      fullPath: '/contato'
+      preLoaderRoute: typeof ContatoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/configuracoes': {
+      id: '/configuracoes'
+      path: '/configuracoes'
+      fullPath: '/configuracoes'
+      preLoaderRoute: typeof ConfiguracoesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/baixar-youtube': {
+      id: '/baixar-youtube'
+      path: '/baixar-youtube'
+      fullPath: '/baixar-youtube'
+      preLoaderRoute: typeof BaixarYoutubeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/baixar-twitter': {
+      id: '/baixar-twitter'
+      path: '/baixar-twitter'
+      fullPath: '/baixar-twitter'
+      preLoaderRoute: typeof BaixarTwitterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/baixar-tiktok': {
+      id: '/baixar-tiktok'
+      path: '/baixar-tiktok'
+      fullPath: '/baixar-tiktok'
+      preLoaderRoute: typeof BaixarTiktokRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/baixar-kwai': {
+      id: '/baixar-kwai'
+      path: '/baixar-kwai'
+      fullPath: '/baixar-kwai'
+      preLoaderRoute: typeof BaixarKwaiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/baixar-instagram': {
+      id: '/baixar-instagram'
+      path: '/baixar-instagram'
+      fullPath: '/baixar-instagram'
+      preLoaderRoute: typeof BaixarInstagramRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -53,17 +337,21 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BaixarInstagramRoute: BaixarInstagramRoute,
+  BaixarKwaiRoute: BaixarKwaiRoute,
+  BaixarTiktokRoute: BaixarTiktokRoute,
+  BaixarTwitterRoute: BaixarTwitterRoute,
+  BaixarYoutubeRoute: BaixarYoutubeRoute,
+  ConfiguracoesRoute: ConfiguracoesRoute,
+  ContatoRoute: ContatoRoute,
+  DmcaRoute: DmcaRoute,
+  DownloadsRoute: DownloadsRoute,
+  FaqRoute: FaqRoute,
+  PrivacidadeRoute: PrivacidadeRoute,
+  SobreRoute: SobreRoute,
+  TermosRoute: TermosRoute,
+  UsoResponsavelRoute: UsoResponsavelRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
