@@ -24,24 +24,35 @@ export function Footer() {
           ))}
         </nav>
 
-        <div className="mt-6 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+        <div className="mt-8 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
           Outros Baixadores
         </div>
-        <div className="mt-3 flex flex-wrap justify-center gap-4 text-sm">
-          {OTHER_DOWNLOADERS.map((d) => {
-            const Icon = d.icon;
-            return (
-              <Link key={d.href} to={d.href} className="flex items-center gap-2 text-foreground/80 hover:text-primary">
-                <span className="flex h-5 w-5 items-center justify-center rounded-md text-white" style={{ backgroundColor: d.color }}>
-                  <Icon className="h-3 w-3" />
-                </span>
-                {d.label}
-              </Link>
-            );
-          })}
+        <div className="mt-4 flex flex-wrap justify-center gap-3">
+          {OTHER_DOWNLOADERS.map((d) => (
+            <a
+              key={d.href}
+              href={d.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 rounded-xl border border-border bg-background px-3 py-2 text-sm text-foreground/80 transition hover:border-primary hover:text-primary"
+            >
+              <img
+                src={d.logo}
+                alt={`Logo ${d.label}`}
+                width={24}
+                height={24}
+                loading="lazy"
+                className="h-6 w-6 rounded-md object-cover"
+              />
+              <span className="font-medium">{d.label}</span>
+              <span className="hidden text-xs text-muted-foreground sm:inline">
+                {d.url.replace("https://", "")}
+              </span>
+            </a>
+          ))}
         </div>
 
-        <div className="mt-6 text-xs text-muted-foreground">
+        <div className="mt-8 text-xs text-muted-foreground">
           © {SITE.year} BaixarVideosFacebook.com. Todos os direitos reservados.
         </div>
         <div className="mt-1 text-xs text-muted-foreground">
