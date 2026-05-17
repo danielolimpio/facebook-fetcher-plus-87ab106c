@@ -1,18 +1,42 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { AppShell, PageContainer } from "@/components/AppShell";
-import { PageHeader } from "@/components/ui-page";
-import { Downloader } from "@/components/Downloader";
 import { Instagram } from "lucide-react";
+import { SocialDownloaderPage } from "@/components/SocialDownloaderPage";
 
 export const Route = createFileRoute("/baixar-instagram")({
-  head: () => ({ meta: [{ title: "Baixar Vídeos do Instagram — Reels e Stories" }] }),
+  head: () => ({
+    meta: [
+      { title: "Baixar Vídeos do Instagram — Reels, Stories e IGTV em HD" },
+      { name: "description", content: "Baixar vídeos do Instagram grátis: Reels, Stories, IGTV e fotos em alta qualidade. Online, rápido e sem instalar apps." },
+    ],
+  }),
   component: () => (
-    <AppShell>
-      <PageContainer>
-        <PageHeader icon={Instagram} title="Baixar Vídeos do" highlight="Instagram" subtitle="Baixe vídeos, Reels e Stories do Instagram em alta qualidade, grátis." />
-        <div className="mx-auto max-w-2xl"><Downloader /></div>
-        <p className="mt-3 text-center text-xs text-muted-foreground">Cole o link público do Instagram. Conteúdo protegido por direitos autorais não pode ser baixado.</p>
-      </PageContainer>
-    </AppShell>
+    <SocialDownloaderPage
+      data={{
+        icon: Instagram,
+        brand: "Instagram",
+        brandColor: "#E1306C",
+        intro: "Baixe vídeos, Reels, Stories e IGTV do Instagram em alta qualidade. Rápido, grátis e direto pelo navegador.",
+        steps: [
+          { title: "Copie o link do Instagram", desc: "Abra o Reel, Story ou publicação, toque nos três pontos e selecione 'Copiar link'." },
+          { title: "Cole no nosso baixador", desc: "Cole a URL do Instagram no campo acima — detectamos automaticamente o tipo de conteúdo." },
+          { title: "Escolha a qualidade e baixe", desc: "Selecione HD ou Full HD e o arquivo será salvo direto no seu dispositivo." },
+        ],
+        formats: [
+          "Reels do Instagram em MP4 sem marca d'água",
+          "Stories públicos em alta resolução",
+          "Vídeos IGTV de longa duração",
+          "Fotos e carrosséis em qualidade original",
+          "Áudio em MP3 extraído dos Reels",
+          "Conteúdo público de qualquer perfil",
+        ],
+        faq: [
+          { q: "Preciso instalar algum aplicativo?", a: "Não. O download é 100% online, direto no navegador do celular ou computador." },
+          { q: "Posso baixar Stories de perfis privados?", a: "Não. Apenas conteúdo público ou do qual você tenha autorização do autor." },
+          { q: "Tem marca d'água nos Reels baixados?", a: "Não, entregamos o vídeo original em MP4 sem marca d'água." },
+          { q: "Há limite diário de downloads?", a: "Não, o serviço é ilimitado e gratuito." },
+          { q: "Funciona no iPhone?", a: "Sim, funciona perfeitamente no Safari e em qualquer navegador iOS." },
+        ],
+      }}
+    />
   ),
 });
