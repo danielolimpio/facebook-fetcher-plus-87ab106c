@@ -1,5 +1,5 @@
 import { Link, useLocation } from "@tanstack/react-router";
-import { Home, Download, Settings, HelpCircle, ArrowDownToLine } from "lucide-react";
+import { Home, Download, Settings, HelpCircle, ArrowDownToLine, ExternalLink } from "lucide-react";
 import { OTHER_DOWNLOADERS, SITE } from "@/lib/site-data";
 import { cn } from "@/lib/utils";
 
@@ -58,26 +58,28 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
           Outros baixadores
         </div>
         <ul className="mt-2 space-y-1">
-          {OTHER_DOWNLOADERS.map((item) => {
-            const Icon = item.icon;
-            return (
-              <li key={item.href}>
-                <Link
-                  to={item.href}
-                  onClick={onNavigate}
-                  className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-foreground/80 transition-colors hover:bg-muted hover:text-foreground"
-                >
-                  <span
-                    className="flex h-7 w-7 items-center justify-center rounded-md text-white"
-                    style={{ backgroundColor: item.color }}
-                  >
-                    <Icon className="h-4 w-4" />
-                  </span>
-                  {item.label}
-                </Link>
-              </li>
-            );
-          })}
+          {OTHER_DOWNLOADERS.map((item) => (
+            <li key={item.href}>
+              <a
+                href={item.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={onNavigate}
+                className="group flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-foreground/80 transition-colors hover:bg-muted hover:text-foreground"
+              >
+                <img
+                  src={item.logo}
+                  alt={`Logo ${item.label}`}
+                  width={28}
+                  height={28}
+                  loading="lazy"
+                  className="h-7 w-7 shrink-0 rounded-md object-cover"
+                />
+                <span className="flex-1 truncate">{item.label}</span>
+                <ExternalLink className="h-3.5 w-3.5 opacity-0 transition-opacity group-hover:opacity-60" />
+              </a>
+            </li>
+          ))}
         </ul>
       </nav>
 
