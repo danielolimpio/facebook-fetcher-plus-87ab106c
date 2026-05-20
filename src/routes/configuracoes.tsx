@@ -3,7 +3,12 @@ import { AppShell, PageContainer } from "@/components/AppShell";
 import { Settings, Info, Globe, ShieldCheck, FileText, Scale, AlertTriangle, HelpCircle, Mail } from "lucide-react";
 
 export const Route = createFileRoute("/configuracoes")({
-  head: () => ({ meta: [{ title: "Configurações — BaixarVideosFacebook" }] }),
+  head: () => ({
+    meta: [
+      { title: "Configurações — BaixarVideosFacebook" },
+      { name: "description", content: "Ajuste preferências locais do BaixarVideosFacebook: qualidade padrão de download, tema, idioma e gerenciamento do histórico salvo no navegador." },
+    ],
+  }),
   component: ConfigPage,
 });
 

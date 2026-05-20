@@ -4,7 +4,12 @@ import { HelpCircle, Search } from "lucide-react";
 import { useMemo, useState } from "react";
 
 export const Route = createFileRoute("/faq")({
-  head: () => ({ meta: [{ title: "Perguntas Frequentes — Baixar Vídeos do Facebook" }] }),
+  head: () => ({
+    meta: [
+      { title: "Perguntas Frequentes — Baixar Vídeos do Facebook" },
+      { name: "description", content: "Tire suas dúvidas sobre como baixar vídeos, Reels e Stories do Facebook em HD, 1080p, 2K e 4K. Compatibilidade, qualidades, limites e segurança." },
+    ],
+  }),
   component: FAQPage,
 });
 
