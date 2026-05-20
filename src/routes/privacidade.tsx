@@ -8,6 +8,10 @@ export const Route = createFileRoute("/privacidade")({
     meta: [
       { title: "Política de Privacidade — BaixarVideosFacebook" },
       { name: "description", content: "Política de Privacidade do BaixarVideosFacebook: como coletamos, usamos e protegemos seus dados em conformidade com a LGPD." },
+      { property: "og:title", content: "Política de Privacidade — BaixarVideosFacebook" },
+      { property: "og:description", content: "Política de Privacidade do BaixarVideosFacebook: como coletamos, usamos e protegemos seus dados em conformidade com a LGPD." },
+      { property: "og:url", content: "https://baixarvideosfacebook.com/privacidade" },
+      { property: "og:type", content: "website" },
     ],
   }),
   component: () => (

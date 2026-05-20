@@ -7,6 +7,10 @@ export const Route = createFileRoute("/baixar-youtube")({
     meta: [
       { title: "Baixar Vídeos do YouTube — HD, 1080p, 4K e MP3 Grátis" },
       { name: "description", content: "Baixar vídeos do YouTube online em HD, Full HD, 2K, 4K e MP3. Rápido, grátis, sem instalar nada." },
+      { property: "og:title", content: "Baixar Vídeos do YouTube — HD, 1080p, 4K e MP3 Grátis" },
+      { property: "og:description", content: "Baixar vídeos do YouTube online em HD, Full HD, 2K, 4K e MP3. Rápido, grátis, sem instalar nada." },
+      { property: "og:url", content: "https://baixarvideosfacebook.com/baixar-youtube" },
+      { property: "og:type", content: "website" },
     ],
   }),
   component: () => (

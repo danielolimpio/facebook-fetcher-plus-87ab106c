@@ -9,6 +9,10 @@ export const Route = createFileRoute("/downloads")({
     meta: [
       { title: "Downloads — Vídeos do Facebook Baixados" },
       { name: "description", content: "Acesse o histórico local dos vídeos do Facebook que você baixou neste navegador. Consulte, reabra ou remova downloads anteriores rapidamente." },
+      { property: "og:title", content: "Downloads — Vídeos do Facebook Baixados" },
+      { property: "og:description", content: "Acesse o histórico local dos vídeos do Facebook que você baixou neste navegador. Consulte, reabra ou remova downloads anteriores rapidamente." },
+      { property: "og:url", content: "https://baixarvideosfacebook.com/downloads" },
+      { property: "og:type", content: "website" },
     ],
   }),
   component: DownloadsPage,

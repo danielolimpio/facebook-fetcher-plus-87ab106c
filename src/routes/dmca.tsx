@@ -8,6 +8,10 @@ export const Route = createFileRoute("/dmca")({
     meta: [
       { title: "Política DMCA — BaixarVideosFacebook" },
       { name: "description", content: "Política DMCA do BaixarVideosFacebook: como reportar violações de direitos autorais e solicitar a remoção de conteúdo." },
+      { property: "og:title", content: "Política DMCA — BaixarVideosFacebook" },
+      { property: "og:description", content: "Política DMCA do BaixarVideosFacebook: como reportar violações de direitos autorais e solicitar a remoção de conteúdo." },
+      { property: "og:url", content: "https://baixarvideosfacebook.com/dmca" },
+      { property: "og:type", content: "website" },
     ],
   }),
   component: () => (

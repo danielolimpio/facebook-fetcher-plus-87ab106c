@@ -9,6 +9,10 @@ export const Route = createFileRoute("/contato")({
     meta: [
       { title: "Contato — BaixarVideosFacebook" },
       { name: "description", content: "Fale com a equipe do BaixarVideosFacebook: suporte técnico, sugestões, parcerias, privacidade e notificações de direitos autorais (DMCA)." },
+      { property: "og:title", content: "Contato — BaixarVideosFacebook" },
+      { property: "og:description", content: "Fale com a equipe do BaixarVideosFacebook: suporte técnico, sugestões, parcerias, privacidade e notificações de direitos autorais (DMCA)." },
+      { property: "og:url", content: "https://baixarvideosfacebook.com/contato" },
+      { property: "og:type", content: "website" },
     ],
   }),
   component: ContatoPage,

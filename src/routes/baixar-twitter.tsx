@@ -7,6 +7,10 @@ export const Route = createFileRoute("/baixar-twitter")({
     meta: [
       { title: "Baixar Vídeos do Twitter / X — HD, MP4 e GIFs Grátis" },
       { name: "description", content: "Baixar vídeos e GIFs do Twitter (X) em HD, MP4 e MP3. Online, grátis e sem instalar nada." },
+      { property: "og:title", content: "Baixar Vídeos do Twitter / X — HD, MP4 e GIFs Grátis" },
+      { property: "og:description", content: "Baixar vídeos e GIFs do Twitter (X) em HD, MP4 e MP3. Online, grátis e sem instalar nada." },
+      { property: "og:url", content: "https://baixarvideosfacebook.com/baixar-twitter" },
+      { property: "og:type", content: "website" },
     ],
   }),
   component: () => (

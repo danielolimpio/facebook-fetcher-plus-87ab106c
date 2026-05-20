@@ -7,6 +7,10 @@ export const Route = createFileRoute("/configuracoes")({
     meta: [
       { title: "Configurações — BaixarVideosFacebook" },
       { name: "description", content: "Ajuste preferências locais do BaixarVideosFacebook: qualidade padrão de download, tema, idioma e gerenciamento do histórico salvo no navegador." },
+      { property: "og:title", content: "Configurações — BaixarVideosFacebook" },
+      { property: "og:description", content: "Ajuste preferências locais do BaixarVideosFacebook: qualidade padrão de download, tema, idioma e gerenciamento do histórico salvo no navegador." },
+      { property: "og:url", content: "https://baixarvideosfacebook.com/configuracoes" },
+      { property: "og:type", content: "website" },
     ],
   }),
   component: ConfigPage,
