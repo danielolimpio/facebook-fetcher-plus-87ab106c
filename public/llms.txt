@@ -1,0 +1,26 @@
+# BaixarVideosFacebook
+
+> Baixador online gratuito de vídeos do Facebook (Reels, Stories e vídeos públicos) em HD, Full HD, 2K e 4K. Sem cadastro, sem instalação, direto no navegador.
+
+O BaixarVideosFacebook é uma ferramenta web que processa links públicos do Facebook e devolve o vídeo em alta qualidade para download imediato. Funciona em PC, Android e iPhone. Também oferece páginas informativas sobre baixadores de outras redes sociais (Instagram, TikTok, Kwai, YouTube, Twitter/X) e conteúdo legal/educativo sobre uso responsável de downloads.
+
+## Pages
+
+- [Home — Baixar vídeos do Facebook](/): Ferramenta principal para colar o link e baixar vídeos, Reels e Stories do Facebook.
+- [Baixar Instagram](/baixar-instagram): Guia para baixar vídeos, Reels e Stories do Instagram.
+- [Baixar TikTok](/baixar-tiktok): Guia para baixar vídeos do TikTok sem marca d'água.
+- [Baixar Kwai](/baixar-kwai): Guia para baixar vídeos do Kwai.
+- [Baixar YouTube](/baixar-youtube): Guia para baixar vídeos e Shorts do YouTube.
+- [Baixar Twitter/X](/baixar-twitter): Guia para baixar vídeos e GIFs do Twitter/X.
+- [Sobre](/sobre): Missão, valores e equipe por trás do BaixarVideosFacebook.
+- [FAQ](/faq): Perguntas frequentes sobre o serviço, qualidades e compatibilidade.
+- [Contato](/contato): Canais oficiais para suporte, sugestões e parcerias.
+- [Uso Responsável](/uso-responsavel): Diretrizes legais e éticas para download de conteúdo.
+- [Termos de Uso](/termos): Termos e condições do serviço.
+- [Política de Privacidade](/privacidade): Como tratamos dados pessoais conforme a LGPD.
+- [DMCA](/dmca): Política de direitos autorais e notificação de remoção.
+
+## Optional
+
+- [Downloads](/downloads): Histórico local de downloads do navegador do usuário.
+- [Configurações](/configuracoes): Preferências locais da ferramenta.
