@@ -7,8 +7,8 @@ export const Route = createFileRoute("/baixar-kwai")({
     meta: [
       { title: "Baixar Vídeos do Kwai sem Marca d'Água — Grátis e HD" },
       { name: "description", content: "Baixar vídeos do Kwai em alta qualidade, sem marca d'água. Grátis, online e sem instalar aplicativos." },
-      { property: "og:title", content: "Baixar Vídeos do Kwai sem Marca d"Água — Grátis e HD" },
-      { property: "og:description", content: "Baixar vídeos do Kwai em alta qualidade, sem marca d"água. Grátis, online e sem instalar aplicativos." },
+      { property: "og:title", content: "Baixar Vídeos do Kwai sem Marca d'Água — Grátis e HD" },
+      { property: "og:description", content: "Baixar vídeos do Kwai em alta qualidade, sem marca d'água. Grátis, online e sem instalar aplicativos." },
       { property: "og:url", content: "https://baixarvideosfacebook.com/baixar-kwai" },
       { property: "og:type", content: "website" },
     ],

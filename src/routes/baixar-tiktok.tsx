@@ -7,8 +7,8 @@ export const Route = createFileRoute("/baixar-tiktok")({
     meta: [
       { title: "Baixar Vídeos do TikTok sem Marca d'Água — Grátis e HD" },
       { name: "description", content: "Baixar vídeos do TikTok em HD sem marca d'água. Salve seus vídeos favoritos do TikTok grátis e online." },
-      { property: "og:title", content: "Baixar Vídeos do TikTok sem Marca d"Água — Grátis e HD" },
-      { property: "og:description", content: "Baixar vídeos do TikTok em HD sem marca d"água. Salve seus vídeos favoritos do TikTok grátis e online." },
+      { property: "og:title", content: "Baixar Vídeos do TikTok sem Marca d'Água — Grátis e HD" },
+      { property: "og:description", content: "Baixar vídeos do TikTok em HD sem marca d'água. Salve seus vídeos favoritos do TikTok grátis e online." },
       { property: "og:url", content: "https://baixarvideosfacebook.com/baixar-tiktok" },
       { property: "og:type", content: "website" },
     ],
