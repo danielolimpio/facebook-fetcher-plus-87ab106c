@@ -11,7 +11,7 @@ import {
 export const Route = createFileRoute("/uso-responsavel")({
   head: () => ({
     meta: [
-      { title: "Uso Responsável — Termos e Política de Download | BaixarVideosFacebook" },
+      { title: "Uso Responsável — Termos de Download | BaixarVideosFacebook" },
       { name: "description", content: "Termos de Uso e Política de Download Responsável: finalidade legítima, proibições, responsabilidades, DMCA, sanções e boas práticas." },
     ],
   }),

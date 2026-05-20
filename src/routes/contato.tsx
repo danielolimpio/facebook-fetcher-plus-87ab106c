@@ -5,7 +5,12 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/contato")({
-  head: () => ({ meta: [{ title: "Contato — BaixarVideosFacebook" }] }),
+  head: () => ({
+    meta: [
+      { title: "Contato — BaixarVideosFacebook" },
+      { name: "description", content: "Fale com a equipe do BaixarVideosFacebook: suporte técnico, sugestões, parcerias, privacidade e notificações de direitos autorais (DMCA)." },
+    ],
+  }),
   component: ContatoPage,
 });
 

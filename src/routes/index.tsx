@@ -14,7 +14,7 @@ import dlImg from "@/assets/download-videos.png";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Baixar Vídeos do Facebook Grátis e Ilimitado — Full HD, 2K, 4K" },
+      { title: "Baixar Vídeos do Facebook Grátis — Full HD, 2K e 4K" },
       { name: "description", content: "O melhor baixador de vídeo do Facebook online. Baixar Reels, Stories e vídeos do Facebook em Full HD, 1080p, 2K e 4K. Grátis e sem instalar." },
     ],
   }),

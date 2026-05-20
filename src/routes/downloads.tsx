@@ -5,7 +5,12 @@ import { Download, Trash2, Info, Film, Video, Camera, Image as ImageIcon, Music 
 import { type DownloadItem, clearDownloads, getDownloads, removeDownload } from "@/lib/downloads-store";
 
 export const Route = createFileRoute("/downloads")({
-  head: () => ({ meta: [{ title: "Downloads — Vídeos do Facebook Baixados" }] }),
+  head: () => ({
+    meta: [
+      { title: "Downloads — Vídeos do Facebook Baixados" },
+      { name: "description", content: "Acesse o histórico local dos vídeos do Facebook que você baixou neste navegador. Consulte, reabra ou remova downloads anteriores rapidamente." },
+    ],
+  }),
   component: DownloadsPage,
 });
 
