@@ -8,6 +8,10 @@ export const Route = createFileRoute("/sobre")({
     meta: [
       { title: "Sobre o BaixarVideosFacebook — Nossa missão e valores" },
       { name: "description", content: "Conheça o BaixarVideosFacebook: o baixador de vídeos do Facebook gratuito, rápido e seguro. Nossa missão, valores e equipe." },
+      { property: "og:title", content: "Sobre o BaixarVideosFacebook — Nossa missão e valores" },
+      { property: "og:description", content: "Conheça o BaixarVideosFacebook: o baixador de vídeos do Facebook gratuito, rápido e seguro. Nossa missão, valores e equipe." },
+      { property: "og:url", content: "https://baixarvideosfacebook.com/sobre" },
+      { property: "og:type", content: "website" },
     ],
   }),
   component: () => (

@@ -7,6 +7,10 @@ export const Route = createFileRoute("/baixar-instagram")({
     meta: [
       { title: "Baixar Vídeos do Instagram — Reels, Stories e IGTV em HD" },
       { name: "description", content: "Baixar vídeos do Instagram grátis: Reels, Stories, IGTV e fotos em alta qualidade. Online, rápido e sem instalar apps." },
+      { property: "og:title", content: "Baixar Vídeos do Instagram — Reels, Stories e IGTV em HD" },
+      { property: "og:description", content: "Baixar vídeos do Instagram grátis: Reels, Stories, IGTV e fotos em alta qualidade. Online, rápido e sem instalar apps." },
+      { property: "og:url", content: "https://baixarvideosfacebook.com/baixar-instagram" },
+      { property: "og:type", content: "website" },
     ],
   }),
   component: () => (

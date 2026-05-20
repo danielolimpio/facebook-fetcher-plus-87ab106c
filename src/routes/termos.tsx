@@ -8,6 +8,10 @@ export const Route = createFileRoute("/termos")({
     meta: [
       { title: "Termos de Uso — BaixarVideosFacebook" },
       { name: "description", content: "Termos de uso do serviço BaixarVideosFacebook: regras, responsabilidades, direitos autorais e condições gerais." },
+      { property: "og:title", content: "Termos de Uso — BaixarVideosFacebook" },
+      { property: "og:description", content: "Termos de uso do serviço BaixarVideosFacebook: regras, responsabilidades, direitos autorais e condições gerais." },
+      { property: "og:url", content: "https://baixarvideosfacebook.com/termos" },
+      { property: "og:type", content: "website" },
     ],
   }),
   component: () => (

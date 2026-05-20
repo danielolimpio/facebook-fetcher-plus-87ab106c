@@ -8,6 +8,10 @@ export const Route = createFileRoute("/faq")({
     meta: [
       { title: "Perguntas Frequentes — Baixar Vídeos do Facebook" },
       { name: "description", content: "Tire suas dúvidas sobre como baixar vídeos, Reels e Stories do Facebook em HD, 1080p, 2K e 4K. Compatibilidade, qualidades, limites e segurança." },
+      { property: "og:title", content: "Perguntas Frequentes — Baixar Vídeos do Facebook" },
+      { property: "og:description", content: "Tire suas dúvidas sobre como baixar vídeos, Reels e Stories do Facebook em HD, 1080p, 2K e 4K. Compatibilidade, qualidades, limites e segurança." },
+      { property: "og:url", content: "https://baixarvideosfacebook.com/faq" },
+      { property: "og:type", content: "website" },
     ],
   }),
   component: FAQPage,
