@@ -12,6 +12,19 @@ export const Route = createFileRoute("/baixar-instagram")({
       { property: "og:url", content: "https://baixarvideosfacebook.com/baixar-instagram" },
       { property: "og:type", content: "website" },
     ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "SoftwareApplication",
+          name: "Baixar Vídeos do Instagram",
+          operatingSystem: "All",
+          applicationCategory: "MultimediaApplication",
+          url: "https://baixarvideosfacebook.com/baixar-instagram",
+        }),
+      },
+    ],
   }),
   component: () => (
     <SocialDownloaderPage

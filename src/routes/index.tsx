@@ -11,19 +11,16 @@ import pasteImg from "@/assets/paste-url.png";
 import copyImg from "@/assets/copy-link.png";
 import dlImg from "@/assets/download-videos.png";
 
-export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "Baixar Vídeos do Facebook Grátis — Full HD, 2K e 4K" },
-      { name: "description", content: "O melhor baixador de vídeo do Facebook online. Baixar Reels, Stories e vídeos do Facebook em Full HD, 1080p, 2K e 4K. Grátis e sem instalar." },
-      { property: "og:title", content: "Baixar Vídeos do Facebook Grátis — Full HD, 2K e 4K" },
-      { property: "og:description", content: "O melhor baixador de vídeo do Facebook online. Baixar Reels, Stories e vídeos do Facebook em Full HD, 1080p, 2K e 4K. Grátis e sem instalar." },
-      { property: "og:url", content: "https://baixarvideosfacebook.com/" },
-      { property: "og:type", content: "website" },
-    ],
-  }),
-  component: Index,
-});
+const FAQ_HOME = [
+  { q: "Como baixar vídeos do Facebook grátis?", a: "Cole o link do vídeo, Reel ou Story no campo acima, clique em Baixar Agora e escolha a qualidade. O download é gratuito e ilimitado." },
+  { q: "Por que usar o BaixarVideosFacebook como seu baixador de vídeo do Facebook?", a: "Somos rápidos, gratuitos, não exigimos cadastro e suportamos Full HD, 2K e 4K. Funciona em qualquer dispositivo sem instalar aplicativo." },
+  { q: "Como baixar Reels do Facebook?", a: "Abra o Reel no Facebook, toque nos três pontos, copie o link e cole aqui. Em segundos seu Reel está pronto para baixar." },
+  { q: "Posso baixar Stories do Facebook?", a: "Sim. Suportamos download de Stories públicos do Facebook em alta qualidade." },
+  { q: "Posso baixar vídeo privado do Facebook?", a: "Você só pode baixar conteúdos aos quais tem acesso autorizado. Respeite a privacidade e os direitos de terceiros." },
+  { q: "Posso baixar vídeos do Facebook pelo link?", a: "Sim, este é o método principal: copie o link do vídeo e cole no campo de download." },
+  { q: "É possível baixar vídeos do Facebook online sem instalar nada?", a: "Sim, o BaixarVideosFacebook funciona 100% online — não precisa instalar software, app ou extensão." },
+  { q: "Funciona no Android e iPhone para baixar vídeos do Facebook?", a: "Sim. Funciona em qualquer navegador moderno — Android, iPhone, tablet, PC e Mac." },
+];
 
 const FEATURES = [
   { icon: ShieldCheck, title: "Sem Marca d'Água", desc: "Baixar videos facebook limpos" },
@@ -44,16 +41,45 @@ const CONTENT_TYPES = [
   { icon: Music, title: "Áudio/MP3", desc: "Extrair áudio de vídeos do Facebook" },
 ];
 
-const FAQ_HOME = [
-  { q: "Como baixar vídeos do Facebook grátis?", a: "Cole o link do vídeo, Reel ou Story no campo acima, clique em Baixar Agora e escolha a qualidade. O download é gratuito e ilimitado." },
-  { q: "Por que usar o BaixarVideosFacebook como seu baixador de vídeo do Facebook?", a: "Somos rápidos, gratuitos, não exigimos cadastro e suportamos Full HD, 2K e 4K. Funciona em qualquer dispositivo sem instalar aplicativo." },
-  { q: "Como baixar Reels do Facebook?", a: "Abra o Reel no Facebook, toque nos três pontos, copie o link e cole aqui. Em segundos seu Reel está pronto para baixar." },
-  { q: "Posso baixar Stories do Facebook?", a: "Sim. Suportamos download de Stories públicos do Facebook em alta qualidade." },
-  { q: "Posso baixar vídeo privado do Facebook?", a: "Você só pode baixar conteúdos aos quais tem acesso autorizado. Respeite a privacidade e os direitos de terceiros." },
-  { q: "Posso baixar vídeos do Facebook pelo link?", a: "Sim, este é o método principal: copie o link do vídeo e cole no campo de download." },
-  { q: "É possível baixar vídeos do Facebook online sem instalar nada?", a: "Sim, o BaixarVideosFacebook funciona 100% online — não precisa instalar software, app ou extensão." },
-  { q: "Funciona no Android e iPhone para baixar vídeos do Facebook?", a: "Sim. Funciona em qualquer navegador moderno — Android, iPhone, tablet, PC e Mac." },
-];
+export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "Baixar Vídeos do Facebook Grátis — Full HD, 2K e 4K" },
+      { name: "description", content: "O melhor baixador de vídeo do Facebook online. Baixar Reels, Stories e vídeos do Facebook em Full HD, 1080p, 2K e 4K. Grátis e sem instalar." },
+      { property: "og:title", content: "Baixar Vídeos do Facebook Grátis — Full HD, 2K e 4K" },
+      { property: "og:description", content: "O melhor baixador de vídeo do Facebook online. Baixar Reels, Stories e vídeos do Facebook em Full HD, 1080p, 2K e 4K. Grátis e sem instalar." },
+      { property: "og:url", content: "https://baixarvideosfacebook.com/" },
+      { property: "og:type", content: "website" },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: "BaixarVideosFacebook",
+          url: "https://baixarvideosfacebook.com",
+        }),
+      },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: FAQ_HOME.map(f => ({
+            "@type": "Question",
+            name: f.q,
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: f.a,
+            },
+          })),
+        }),
+      },
+    ],
+  }),
+  component: Index,
+});
 
 function Index() {
   return (

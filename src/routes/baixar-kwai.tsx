@@ -12,6 +12,19 @@ export const Route = createFileRoute("/baixar-kwai")({
       { property: "og:url", content: "https://baixarvideosfacebook.com/baixar-kwai" },
       { property: "og:type", content: "website" },
     ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "SoftwareApplication",
+          name: "Baixar Vídeos do Kwai",
+          operatingSystem: "All",
+          applicationCategory: "MultimediaApplication",
+          url: "https://baixarvideosfacebook.com/baixar-kwai",
+        }),
+      },
+    ],
   }),
   component: () => (
     <SocialDownloaderPage

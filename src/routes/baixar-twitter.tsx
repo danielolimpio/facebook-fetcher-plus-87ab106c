@@ -12,6 +12,19 @@ export const Route = createFileRoute("/baixar-twitter")({
       { property: "og:url", content: "https://baixarvideosfacebook.com/baixar-twitter" },
       { property: "og:type", content: "website" },
     ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "SoftwareApplication",
+          name: "Baixar Vídeos do Twitter / X",
+          operatingSystem: "All",
+          applicationCategory: "MultimediaApplication",
+          url: "https://baixarvideosfacebook.com/baixar-twitter",
+        }),
+      },
+    ],
   }),
   component: () => (
     <SocialDownloaderPage
