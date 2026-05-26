@@ -12,6 +12,19 @@ export const Route = createFileRoute("/baixar-youtube")({
       { property: "og:url", content: "https://baixarvideosfacebook.com/baixar-youtube" },
       { property: "og:type", content: "website" },
     ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "SoftwareApplication",
+          name: "Baixar Vídeos do YouTube",
+          operatingSystem: "All",
+          applicationCategory: "MultimediaApplication",
+          url: "https://baixarvideosfacebook.com/baixar-youtube",
+        }),
+      },
+    ],
   }),
   component: () => (
     <SocialDownloaderPage
