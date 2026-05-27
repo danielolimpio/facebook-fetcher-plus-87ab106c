@@ -1,1 +1,7 @@
 project_id = "qdusunuvnllunqakopmi"
+
+[functions.fb-extract]
+verify_jwt = false
+
+[functions.fb-download]
+verify_jwt = false
