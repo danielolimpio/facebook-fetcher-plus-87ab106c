@@ -1,12 +1,19 @@
 import { useState } from "react";
-import { useServerFn } from "@tanstack/react-start";
 import { Link as LinkIcon, Download, ClipboardPaste, Loader2, CheckCircle2 } from "lucide-react";
 import { addDownload, detectType, isValidFacebookUrl } from "@/lib/downloads-store";
-import { extractFacebookVideo, type FbExtractResult } from "@/lib/facebook.functions";
 import { toast } from "sonner";
 
+interface FbExtractResult {
+  title: string;
+  thumbnail?: string;
+  hd?: string;
+  sd?: string;
+}
+
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string;
+const SUPABASE_ANON = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY as string;
+
 export function Downloader() {
-  const extract = useServerFn(extractFacebookVideo);
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<FbExtractResult | null>(null);
@@ -26,8 +33,18 @@ export function Downloader() {
     setLoading(true);
     setResult(null);
     try {
-      const data = await extract({ data: { url: url.trim() } });
-      setResult(data);
+      const res = await fetch(`${SUPABASE_URL}/functions/v1/fb-extract`, {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          apikey: SUPABASE_ANON,
+          authorization: `Bearer ${SUPABASE_ANON}`,
+        },
+        body: JSON.stringify({ url: url.trim() }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data?.error || "Falha ao processar o link");
+      setResult(data as FbExtractResult);
       toast.success("Vídeo encontrado! Escolha a qualidade.");
     } catch (e) {
       const msg = e instanceof Error ? e.message : "Falha ao processar o link";
@@ -39,7 +56,7 @@ export function Downloader() {
 
   const triggerDownload = (videoUrl: string, qualityLabel: string) => {
     const safeName = (result?.title || "facebook-video").slice(0, 60).replace(/[^\w\-]+/g, "_");
-    const href = `/api/public/fb-download?u=${encodeURIComponent(videoUrl)}&name=${encodeURIComponent(safeName)}`;
+    const href = `${SUPABASE_URL}/functions/v1/fb-download?u=${encodeURIComponent(videoUrl)}&name=${encodeURIComponent(safeName)}`;
     const a = document.createElement("a");
     a.href = href;
     a.rel = "noopener";
