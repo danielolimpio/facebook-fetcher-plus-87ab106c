@@ -3,6 +3,8 @@ import { Home, Download, Settings, HelpCircle, ExternalLink } from "lucide-react
 import { OTHER_DOWNLOADERS, SITE } from "@/lib/site-data";
 import { cn } from "@/lib/utils";
 import logoFb from "@/assets/logo-facebook-download.png";
+import batePapoLogo from "@/assets/bate-papo-logo.png.asset.json";
+import batePapoGif from "@/assets/bate-papo-chat.gif.asset.json";
 
 const NAV = [
   { label: "Home", href: "/", icon: Home },
@@ -16,7 +18,7 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = location.pathname;
 
   return (
-    <aside className="flex h-full w-64 flex-col border-r border-sidebar-border bg-sidebar">
+    <aside className="flex w-64 flex-col self-start border-r border-sidebar-border bg-sidebar">
       <div className="flex items-center gap-3 border-b border-sidebar-border px-5 py-5">
         <img src={logoFb} alt="Baixar Vídeos Facebook" width={44} height={44} className="h-11 w-11 shrink-0 rounded-xl shadow-sm" />
         <div>
@@ -25,7 +27,7 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
         </div>
       </div>
 
-      <nav className="flex-1 overflow-y-auto px-3 py-4">
+      <nav className="px-3 py-4">
         <ul className="space-y-1">
           {NAV.map((item) => {
             const active = pathname === item.href;
@@ -81,6 +83,30 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
           ))}
         </ul>
       </nav>
+
+      <a
+        href="https://batepapogratis.com/"
+        target="_blank"
+        rel="noopener noreferrer"
+        onClick={onNavigate}
+        aria-label="Bate Papo Grátis"
+        className="flex flex-col items-center gap-2 border-t border-sidebar-border px-5 py-4 transition-opacity hover:opacity-90"
+      >
+        <img
+          src={batePapoLogo.url}
+          alt="Bate Papo"
+          width={160}
+          height={160}
+          className="h-auto w-32"
+        />
+        <img
+          src={batePapoGif.url}
+          alt="Bate Papo chat"
+          width={80}
+          height={80}
+          className="h-auto w-16"
+        />
+      </a>
 
       <div className="border-t border-sidebar-border px-5 py-3 text-xs text-muted-foreground">
         {SITE.version} · {SITE.locale}
