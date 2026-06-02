@@ -96,10 +96,6 @@ function Index() {
             Também disponível como <em>Facebook video download</em> — funciona em computador, celular e tablet sem instalar nenhum aplicativo.
           </p>
 
-          <div className="mx-auto mt-8 max-w-3xl rounded-2xl bg-card p-4 shadow-sm">
-            <img src={heroImg} alt="Baixar vídeos do Facebook no computador, celular e tablet" width={1024} height={768} className="mx-auto w-full max-w-2xl rounded-xl" />
-          </div>
-
           <div className="mx-auto mt-8 max-w-2xl">
             <Downloader />
             <p className="mt-3 text-xs text-muted-foreground">
@@ -107,6 +103,10 @@ function Index() {
               Certifique-se de não violar direitos de terceiros. Conteúdos protegidos por direitos autorais não podem ser baixados.{" "}
               <Link to="/uso-responsavel" className="text-primary underline">Saiba mais</Link>
             </p>
+          </div>
+
+          <div className="mx-auto mt-8 max-w-3xl rounded-2xl bg-card p-4 shadow-sm">
+            <img src={heroImg} alt="Baixar vídeos do Facebook no computador, celular e tablet" width={1024} height={768} className="mx-auto w-full max-w-2xl rounded-xl" />
           </div>
         </section>
 
