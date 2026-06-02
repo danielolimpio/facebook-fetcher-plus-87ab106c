@@ -90,22 +90,25 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
         rel="noopener noreferrer"
         onClick={onNavigate}
         aria-label="Bate Papo Grátis"
-        className="flex flex-col items-center gap-2 border-t border-sidebar-border px-5 py-4 transition-opacity hover:opacity-90"
+        className="group relative flex flex-col items-center border-t border-sidebar-border px-5 py-4 transition-transform hover:scale-[1.02]"
       >
-        <img
-          src={batePapoLogo.url}
-          alt="Bate Papo"
-          width={160}
-          height={160}
-          className="h-auto w-32"
-        />
-        <img
-          src={batePapoGif.url}
-          alt="Bate Papo chat"
-          width={80}
-          height={80}
-          className="h-auto w-16"
-        />
+        <div className="pointer-events-none absolute inset-x-6 top-6 h-28 rounded-full bg-[radial-gradient(ellipse_at_center,hsl(var(--primary)/0.35),transparent_70%)] blur-2xl opacity-70 transition-opacity duration-500 group-hover:opacity-100" />
+        <div className="relative flex flex-col items-center -space-y-3">
+          <img
+            src={batePapoLogo.url}
+            alt="Bate Papo"
+            width={160}
+            height={160}
+            className="h-auto w-32 mix-blend-multiply dark:mix-blend-screen drop-shadow-[0_0_18px_hsl(var(--primary)/0.55)]"
+          />
+          <img
+            src={batePapoGif.url}
+            alt="Bate Papo chat"
+            width={80}
+            height={80}
+            className="h-auto w-16 mix-blend-multiply dark:mix-blend-screen drop-shadow-[0_0_12px_hsl(var(--primary)/0.45)]"
+          />
+        </div>
       </a>
 
       <div className="border-t border-sidebar-border px-5 py-3 text-xs text-muted-foreground">
