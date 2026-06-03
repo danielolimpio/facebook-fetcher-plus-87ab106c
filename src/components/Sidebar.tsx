@@ -95,7 +95,7 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
         <div className="pointer-events-none absolute inset-x-6 top-4 h-32 rounded-full bg-[radial-gradient(ellipse_at_center,hsl(var(--primary)/0.35),transparent_70%)] blur-2xl opacity-70 transition-opacity duration-500 group-hover:opacity-100" />
         <div className="relative flex flex-col items-center -space-y-8">
           <img
-            src={batePapoLogo.url}
+            src={batePapoLogo}
             alt="Bate Papo"
             width={160}
             height={160}
