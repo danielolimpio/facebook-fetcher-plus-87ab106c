@@ -18,7 +18,7 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = location.pathname;
 
   return (
-    <aside className="flex h-full w-64 flex-col overflow-y-auto border-r border-sidebar-border bg-sidebar">
+    <aside className="flex h-full w-64 flex-col border-r border-sidebar-border bg-sidebar">
       <div className="flex items-center gap-3 border-b border-sidebar-border px-5 py-5">
         <img src={logoFb} alt="Baixar Vídeos Facebook" width={44} height={44} className="h-11 w-11 shrink-0 rounded-xl shadow-sm" />
         <div>
