@@ -102,7 +102,7 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
             className="relative z-10 h-auto w-32 mix-blend-multiply dark:mix-blend-screen drop-shadow-[0_0_18px_hsl(var(--primary)/0.55)]"
           />
           <img
-            src={batePapoGif.url}
+            src={batePapoGif}
             alt="Bate Papo chat"
             width={80}
             height={80}
