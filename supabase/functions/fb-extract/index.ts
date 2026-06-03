@@ -88,22 +88,46 @@ Deno.serve(async (req) => {
       } catch {}
     }
 
-    let info: ReturnType<typeof extract> = {};
-    try {
-      const html = await fetchHtml(url.replace("www.facebook.com", "m.facebook.com"), UA_MOBILE);
-      info = extract(html);
-    } catch {}
+    // Normalize reel / video / share URLs to the desktop watch endpoint,
+    // which reliably exposes browser_native_(hd|sd)_url for public content.
+    const idMatch =
+      url.match(/\/reel\/(\d+)/i) ||
+      url.match(/\/videos\/(?:[^/]+\/)?(\d+)/i) ||
+      url.match(/[?&]v=(\d+)/i) ||
+      url.match(/\/watch\/?\?v=(\d+)/i) ||
+      url.match(/\/story\.php\?[^"]*story_fbid=(\d+)/i);
+    const candidates: string[] = [];
+    if (idMatch) {
+      const id = idMatch[1];
+      candidates.push(`https://www.facebook.com/watch/?v=${id}`);
+      candidates.push(`https://www.facebook.com/reel/${id}`);
+    }
+    candidates.push(url.replace("m.facebook.com", "www.facebook.com"));
+    candidates.push(url.replace("www.facebook.com", "m.facebook.com"));
 
-    if (!info.hd && !info.sd) {
+    let info: ReturnType<typeof extract> = {};
+    let lastErr: string | undefined;
+    for (const candidate of candidates) {
       try {
-        const html = await fetchHtml(url.replace("m.facebook.com", "www.facebook.com"), UA_DESKTOP);
+        const ua = /m\.facebook\.com/i.test(candidate) ? UA_MOBILE : UA_DESKTOP;
+        const html = await fetchHtml(candidate, ua);
         const d = extract(html);
-        info = { ...d, ...info, hd: info.hd ?? d.hd, sd: info.sd ?? d.sd };
-      } catch {}
+        info = {
+          title: info.title ?? d.title,
+          thumbnail: info.thumbnail ?? d.thumbnail,
+          hd: info.hd ?? d.hd,
+          sd: info.sd ?? d.sd,
+        };
+        if (info.hd || info.sd) break;
+      } catch (err) {
+        lastErr = err instanceof Error ? err.message : String(err);
+      }
     }
 
     if (!info.hd && !info.sd) {
-      throw new Error("Não foi possível extrair o vídeo. Verifique se o vídeo é público e tente novamente.");
+      throw new Error(
+        `Não foi possível extrair o vídeo. ${lastErr ? `(${lastErr}) ` : ""}Verifique se o vídeo é público e tente novamente.`,
+      );
     }
 
     return new Response(
