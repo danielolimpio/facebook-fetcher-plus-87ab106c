@@ -3,8 +3,8 @@ import { Home, Download, Settings, HelpCircle, ExternalLink } from "lucide-react
 import { OTHER_DOWNLOADERS, SITE } from "@/lib/site-data";
 import { cn } from "@/lib/utils";
 import logoFb from "@/assets/logo-facebook-download.png";
-import batePapoLogo from "@/assets/bate-papo-logo.png.asset.json";
-import batePapoGif from "@/assets/bate-papo-chat.gif.asset.json";
+import batePapoLogo from "@/assets/bate-papo-logo.png";
+import batePapoGif from "@/assets/bate-papo-chat.gif";
 
 const NAV = [
   { label: "Home", href: "/", icon: Home },
