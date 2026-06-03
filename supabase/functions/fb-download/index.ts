@@ -20,14 +20,14 @@ Deno.serve(async (req) => {
   } catch {
     return new Response("Invalid url", { status: 400, headers: CORS });
   }
-  if (!/(^|\.)fbcdn\.net$|(^|\.)facebook\.com$/i.test(host)) {
+  if (!/(^|\.)fbcdn\.net$|(^|\.)facebook\.com$|(^|\.)fbsbx\.com$/i.test(host)) {
     return new Response("Host not allowed", { status: 400, headers: CORS });
   }
 
   const upstream = await fetch(target, {
     headers: {
       "user-agent":
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)",
       referer: "https://www.facebook.com/",
     },
   });

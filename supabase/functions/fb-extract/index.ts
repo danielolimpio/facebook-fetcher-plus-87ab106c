@@ -9,6 +9,8 @@ const UA_DESKTOP =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36";
 const UA_MOBILE =
   "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1";
+const UA_CRAWLER =
+  "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)";
 
 function decode(s: string) {
   return s
@@ -108,20 +110,25 @@ Deno.serve(async (req) => {
     let info: ReturnType<typeof extract> = {};
     let lastErr: string | undefined;
     for (const candidate of candidates) {
-      try {
-        const ua = /m\.facebook\.com/i.test(candidate) ? UA_MOBILE : UA_DESKTOP;
-        const html = await fetchHtml(candidate, ua);
-        const d = extract(html);
-        info = {
-          title: info.title ?? d.title,
-          thumbnail: info.thumbnail ?? d.thumbnail,
-          hd: info.hd ?? d.hd,
-          sd: info.sd ?? d.sd,
-        };
-        if (info.hd || info.sd) break;
-      } catch (err) {
-        lastErr = err instanceof Error ? err.message : String(err);
+      const uas = /m\.facebook\.com/i.test(candidate)
+        ? [UA_CRAWLER, UA_MOBILE, UA_DESKTOP]
+        : [UA_CRAWLER, UA_DESKTOP, UA_MOBILE];
+      for (const ua of uas) {
+        try {
+          const html = await fetchHtml(candidate, ua);
+          const d = extract(html);
+          info = {
+            title: info.title ?? d.title,
+            thumbnail: info.thumbnail ?? d.thumbnail,
+            hd: info.hd ?? d.hd,
+            sd: info.sd ?? d.sd,
+          };
+          if (info.hd || info.sd) break;
+        } catch (err) {
+          lastErr = err instanceof Error ? err.message : String(err);
+        }
       }
+      if (info.hd || info.sd) break;
     }
 
     if (!info.hd && !info.sd) {
