@@ -3,8 +3,8 @@ import { Home, Download, Settings, HelpCircle, ExternalLink } from "lucide-react
 import { OTHER_DOWNLOADERS, SITE } from "@/lib/site-data";
 import { cn } from "@/lib/utils";
 import logoFb from "@/assets/logo-facebook-download.png";
-import batePapoLogo from "@/assets/bate-papo-logo.png.asset.json";
-import batePapoGif from "@/assets/bate-papo-chat.gif.asset.json";
+import batePapoLogo from "@/assets/bate-papo-logo.png";
+import batePapoGif from "@/assets/bate-papo-chat.gif";
 
 const NAV = [
   { label: "Home", href: "/", icon: Home },
@@ -18,7 +18,7 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = location.pathname;
 
   return (
-    <aside className="flex h-full w-64 flex-col overflow-y-auto border-r border-sidebar-border bg-sidebar">
+    <aside className="flex h-full w-64 flex-col border-r border-sidebar-border bg-sidebar">
       <div className="flex items-center gap-3 border-b border-sidebar-border px-5 py-5">
         <img src={logoFb} alt="Baixar Vídeos Facebook" width={44} height={44} className="h-11 w-11 shrink-0 rounded-xl shadow-sm" />
         <div>
@@ -95,14 +95,14 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
         <div className="pointer-events-none absolute inset-x-6 top-4 h-32 rounded-full bg-[radial-gradient(ellipse_at_center,hsl(var(--primary)/0.35),transparent_70%)] blur-2xl opacity-70 transition-opacity duration-500 group-hover:opacity-100" />
         <div className="relative flex flex-col items-center -space-y-8">
           <img
-            src={batePapoLogo.url}
+            src={batePapoLogo}
             alt="Bate Papo"
             width={160}
             height={160}
             className="relative z-10 h-auto w-32 mix-blend-multiply dark:mix-blend-screen drop-shadow-[0_0_18px_hsl(var(--primary)/0.55)]"
           />
           <img
-            src={batePapoGif.url}
+            src={batePapoGif}
             alt="Bate Papo chat"
             width={80}
             height={80}
