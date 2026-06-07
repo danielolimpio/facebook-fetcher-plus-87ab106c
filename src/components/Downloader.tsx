@@ -12,6 +12,7 @@ interface FbExtractResult {
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string;
 const SUPABASE_ANON = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY as string;
+const EXTRACT_TIMEOUT_MS = 35000;
 
 export function Downloader() {
   const [url, setUrl] = useState("");
@@ -32,6 +33,8 @@ export function Downloader() {
     if (!isValidFacebookUrl(url)) return toast.error("Link inválido. Use uma URL do Facebook.");
     setLoading(true);
     setResult(null);
+    const controller = new AbortController();
+    const timeout = window.setTimeout(() => controller.abort(), EXTRACT_TIMEOUT_MS);
     try {
       const res = await fetch(`${SUPABASE_URL}/functions/v1/fb-extract`, {
         method: "POST",
@@ -41,15 +44,19 @@ export function Downloader() {
           authorization: `Bearer ${SUPABASE_ANON}`,
         },
         body: JSON.stringify({ url: url.trim() }),
+        signal: controller.signal,
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data?.error || "Falha ao processar o link");
       setResult(data as FbExtractResult);
       toast.success("Vídeo encontrado! Escolha a qualidade.");
     } catch (e) {
-      const msg = e instanceof Error ? e.message : "Falha ao processar o link";
+      const msg = e instanceof DOMException && e.name === "AbortError"
+        ? "O Facebook demorou demais para responder. Tente novamente ou use outro link público do mesmo vídeo."
+        : e instanceof Error ? e.message : "Falha ao processar o link";
       toast.error(msg);
     } finally {
+      window.clearTimeout(timeout);
       setLoading(false);
     }
   };
