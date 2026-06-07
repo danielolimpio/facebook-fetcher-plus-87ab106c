@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link as LinkIcon, Download, ClipboardPaste, Loader2, CheckCircle2 } from "lucide-react";
+import { Link as LinkIcon, Download, ClipboardPaste, Loader2, CheckCircle2, X } from "lucide-react";
 import { addDownload, detectType, isValidFacebookUrl } from "@/lib/downloads-store";
 import { toast } from "sonner";
 
