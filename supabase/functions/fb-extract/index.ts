@@ -90,6 +90,7 @@ async function fetchHtml(url: string, ua: string) {
       accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
     },
     redirect: "follow",
+    signal: AbortSignal.timeout(8000),
   });
   if (!r.ok) throw new Error(`Facebook respondeu ${r.status}`);
   return { html: await r.text(), finalUrl: r.url };
@@ -104,6 +105,7 @@ async function probeCrawlerMedia(videoId: string) {
       referer: "https://www.facebook.com/",
     },
     redirect: "follow",
+    signal: AbortSignal.timeout(6000),
   }).catch(() => undefined);
   const type = r?.headers.get("content-type") ?? "";
   const disposition = r?.headers.get("content-disposition") ?? "";
