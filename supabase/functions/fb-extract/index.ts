@@ -11,15 +11,37 @@ const UA_MOBILE =
   "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1";
 const UA_CRAWLER =
   "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)";
+const UA_EXTERNALHIT =
+  "facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.php)";
 
 function decode(s: string) {
-  return s
+  const decoded = s
     .replace(/\\u0025/g, "%")
     .replace(/\\u002F/g, "/")
     .replace(/\\\//g, "/")
     .replace(/\\u0026/g, "&")
     .replace(/&amp;/g, "&")
     .replace(/\\"/g, '"');
+  try {
+    return decodeURIComponent(decoded);
+  } catch {
+    return decoded;
+  }
+}
+
+function extractVideoId(text: string): string | undefined {
+  return (
+    text.match(/\/reel\/(\d+)/i) ||
+    text.match(/\/videos\/(?:[^/]+\/)?(\d+)/i) ||
+    text.match(/[?&]v=(\d+)/i) ||
+    text.match(/\/watch\/?\?v=(\d+)/i) ||
+    text.match(/\/story\.php\?[^"'<>]*story_fbid=(\d+)/i) ||
+    text.match(/"initial_node_id":"(\d+)"/i) ||
+    text.match(/"root_video_id":"(\d+)"/i) ||
+    text.match(/"video_id":"?(\d+)"?/i) ||
+    text.match(/"videoID":"(\d+)"/i) ||
+    text.match(/media_id=(\d+)/i)
+  )?.[1];
 }
 
 function pick(html: string, patterns: RegExp[]): string | undefined {
@@ -43,6 +65,7 @@ function extract(html: string) {
   const sd = pick(html, [
     /"browser_native_sd_url":"([^"]+)"/,
     /"playable_url":"([^"]+)"/,
+    /"progressive_url":"([^"]+)"/,
     /sd_src_no_ratelimit:"([^"]+)"/,
     /"sd_src":"([^"]+)"/,
     /sd_src:"([^"]+)"/,
@@ -69,7 +92,38 @@ async function fetchHtml(url: string, ua: string) {
     redirect: "follow",
   });
   if (!r.ok) throw new Error(`Facebook respondeu ${r.status}`);
-  return await r.text();
+  return { html: await r.text(), finalUrl: r.url };
+}
+
+async function probeCrawlerMedia(videoId: string) {
+  const mediaUrl = `https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=${videoId}`;
+  const r = await fetch(mediaUrl, {
+    method: "HEAD",
+    headers: {
+      "user-agent": UA_EXTERNALHIT,
+      referer: "https://www.facebook.com/",
+    },
+    redirect: "follow",
+  }).catch(() => undefined);
+  const type = r?.headers.get("content-type") ?? "";
+  const disposition = r?.headers.get("content-disposition") ?? "";
+  if (r?.ok && (/video\//i.test(type) || /attachment/i.test(disposition))) return mediaUrl;
+}
+
+function addVideoCandidates(candidates: string[], seen: Set<string>, id?: string) {
+  if (!id) return;
+  for (const candidate of [
+    `https://www.facebook.com/watch/?v=${id}`,
+    `https://m.facebook.com/watch/?v=${id}&_rdr`,
+    `https://www.facebook.com/reel/${id}/`,
+    `https://m.facebook.com/reel/${id}`,
+    `https://www.facebook.com/video.php?v=${id}`,
+  ]) {
+    if (!seen.has(candidate)) {
+      seen.add(candidate);
+      candidates.push(candidate);
+    }
+  }
 }
 
 Deno.serve(async (req) => {
