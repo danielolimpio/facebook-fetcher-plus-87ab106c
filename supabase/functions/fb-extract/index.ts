@@ -137,6 +137,7 @@ Deno.serve(async (req) => {
   if (req.method !== "POST") return new Response("Method not allowed", { status: 405, headers: CORS });
 
   try {
+    const deadline = AbortSignal.timeout(FUNCTION_DEADLINE_MS);
     const body = await req.json().catch(() => ({}));
     let url: string = body?.url ?? "";
     if (!url || typeof url !== "string") throw new Error("URL inválida");
@@ -163,14 +164,17 @@ Deno.serve(async (req) => {
 
     let info: ReturnType<typeof extract> = {};
     let lastErr: string | undefined;
-    for (let i = 0; i < candidates.length; i++) {
+    let fetches = 0;
+    for (let i = 0; i < candidates.length && i < MAX_CANDIDATES; i++) {
       const candidate = candidates[i];
       const uas = /m\.facebook\.com/i.test(candidate)
         ? [UA_EXTERNALHIT, UA_CRAWLER, UA_MOBILE, UA_DESKTOP]
         : [UA_EXTERNALHIT, UA_CRAWLER, UA_DESKTOP, UA_MOBILE];
       for (const ua of uas) {
+        if (fetches >= MAX_FETCHES || deadline.aborted) break;
+        fetches++;
         try {
-          const { html, finalUrl } = await fetchHtml(candidate, ua);
+          const { html, finalUrl } = await fetchHtml(candidate, ua, deadline);
           const discoveredId = extractVideoId(finalUrl) ?? extractVideoId(html);
           if (discoveredId && discoveredId !== resolvedVideoId) {
             resolvedVideoId = discoveredId;
@@ -192,13 +196,13 @@ Deno.serve(async (req) => {
     }
 
     if (!info.hd && !info.sd && resolvedVideoId) {
-      const directMedia = await probeCrawlerMedia(resolvedVideoId);
+      const directMedia = await probeCrawlerMedia(resolvedVideoId, deadline);
       if (directMedia) info = { ...info, hd: directMedia, sd: directMedia };
     }
 
     if (!info.hd && !info.sd) {
       throw new Error(
-        `Não foi possível acessar o arquivo deste vídeo pelo Facebook no momento. ${lastErr ? `(${lastErr}) ` : ""}Tente novamente ou use outro link público do mesmo vídeo.`,
+        `Este Reel é público, mas o Facebook não liberou o arquivo MP4 para acesso anônimo agora. ${lastErr ? `(${lastErr}) ` : ""}Tente novamente em alguns instantes ou use outro link público do mesmo vídeo.`,
       );
     }
 
