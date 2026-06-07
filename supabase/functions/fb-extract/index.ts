@@ -18,6 +18,24 @@ const MAX_CANDIDATES = 6;
 const MAX_FETCHES = 10;
 const FUNCTION_DEADLINE_MS = 28000;
 
+function isStoryUrl(url: string) {
+  return /facebook\.com\/stories\//i.test(url);
+}
+
+function extractStoryIds(url: string): string[] {
+  const ids = new Set<string>();
+  const owner = url.match(/\/stories\/(\d+)\//i)?.[1];
+  if (owner) ids.add(owner);
+  const encoded = url.match(/\/stories\/\d+\/([^/?#]+)/i)?.[1];
+  if (encoded) {
+    try {
+      const raw = atob(decodeURIComponent(encoded));
+      for (const id of raw.match(/\d{8,}/g) ?? []) ids.add(id);
+    } catch {}
+  }
+  return [...ids];
+}
+
 function decode(s: string) {
   const decoded = s
     .replace(/\\u0025/g, "%")
@@ -102,18 +120,29 @@ async function fetchHtml(url: string, ua: string, signal: AbortSignal) {
 
 async function probeCrawlerMedia(videoId: string, signal: AbortSignal) {
   const mediaUrl = `https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=${videoId}`;
+  const headers = {
+    "user-agent": UA_EXTERNALHIT,
+    referer: "https://www.facebook.com/",
+  };
   const r = await fetch(mediaUrl, {
     method: "HEAD",
-    headers: {
-      "user-agent": UA_EXTERNALHIT,
-      referer: "https://www.facebook.com/",
-    },
+    headers,
     redirect: "follow",
     signal: AbortSignal.any([signal, AbortSignal.timeout(4500)]),
   }).catch(() => undefined);
   const type = r?.headers.get("content-type") ?? "";
   const disposition = r?.headers.get("content-disposition") ?? "";
   if (r?.ok && (/video\//i.test(type) || /attachment/i.test(disposition))) return mediaUrl;
+
+  const range = await fetch(mediaUrl, {
+    method: "GET",
+    headers: { ...headers, range: "bytes=0-0" },
+    redirect: "follow",
+    signal: AbortSignal.any([signal, AbortSignal.timeout(4500)]),
+  }).catch(() => undefined);
+  const rangeType = range?.headers.get("content-type") ?? "";
+  const rangeDisposition = range?.headers.get("content-disposition") ?? "";
+  if (range?.ok && (/video\//i.test(rangeType) || /attachment/i.test(rangeDisposition))) return mediaUrl;
 }
 
 function addVideoCandidates(candidates: string[], seen: Set<string>, id?: string) {
@@ -143,6 +172,7 @@ Deno.serve(async (req) => {
     if (!url || typeof url !== "string") throw new Error("URL inválida");
     if (!/facebook\.com|fb\.watch|fb\.com/i.test(url)) throw new Error("URL não é do Facebook");
     url = url.trim();
+    const story = isStoryUrl(url);
 
     if (/fb\.watch/i.test(url)) {
       try {
@@ -165,7 +195,17 @@ Deno.serve(async (req) => {
     let info: ReturnType<typeof extract> = {};
     let lastErr: string | undefined;
     let fetches = 0;
+    const probedMediaIds = new Set<string>();
+
+    for (const storyId of story ? extractStoryIds(url) : []) {
+      const directMedia = await probeCrawlerMedia(storyId, deadline);
+      probedMediaIds.add(storyId);
+      if (directMedia) info = { ...info, hd: directMedia, sd: directMedia, title: "Story do Facebook" };
+      if (info.hd || info.sd) break;
+    }
+
     for (let i = 0; i < candidates.length && i < MAX_CANDIDATES; i++) {
+      if (info.hd || info.sd) break;
       const candidate = candidates[i];
       const uas = /m\.facebook\.com/i.test(candidate)
         ? [UA_EXTERNALHIT, UA_CRAWLER, UA_MOBILE, UA_DESKTOP]
@@ -179,6 +219,14 @@ Deno.serve(async (req) => {
           if (discoveredId && discoveredId !== resolvedVideoId) {
             resolvedVideoId = discoveredId;
             addVideoCandidates(candidates, seen, discoveredId);
+          }
+          if (discoveredId && !probedMediaIds.has(discoveredId)) {
+            probedMediaIds.add(discoveredId);
+            const directMedia = await probeCrawlerMedia(discoveredId, deadline);
+            if (directMedia) {
+              info = { ...info, hd: directMedia, sd: directMedia };
+              break;
+            }
           }
           const d = extract(html);
           info = {
@@ -201,6 +249,11 @@ Deno.serve(async (req) => {
     }
 
     if (!info.hd && !info.sd) {
+      if (story) {
+        throw new Error(
+          `Este Story parece público no navegador, mas o Facebook não expôs o arquivo MP4 para acesso anônimo agora. ${lastErr ? `(${lastErr}) ` : ""}Stories normalmente exigem uma sessão ativa do Facebook para liberar o vídeo.`,
+        );
+      }
       throw new Error(
         `Este Reel é público, mas o Facebook não liberou o arquivo MP4 para acesso anônimo agora. ${lastErr ? `(${lastErr}) ` : ""}Tente novamente em alguns instantes ou use outro link público do mesmo vídeo.`,
       );
