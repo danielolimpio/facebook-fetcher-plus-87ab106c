@@ -144,32 +144,32 @@ Deno.serve(async (req) => {
       } catch {}
     }
 
-    // Normalize reel / video / share URLs to the desktop watch endpoint,
-    // which reliably exposes browser_native_(hd|sd)_url for public content.
-    const idMatch =
-      url.match(/\/reel\/(\d+)/i) ||
-      url.match(/\/videos\/(?:[^/]+\/)?(\d+)/i) ||
-      url.match(/[?&]v=(\d+)/i) ||
-      url.match(/\/watch\/?\?v=(\d+)/i) ||
-      url.match(/\/story\.php\?[^"]*story_fbid=(\d+)/i);
     const candidates: string[] = [];
-    if (idMatch) {
-      const id = idMatch[1];
-      candidates.push(`https://www.facebook.com/watch/?v=${id}`);
-      candidates.push(`https://www.facebook.com/reel/${id}`);
+    const seen = new Set<string>();
+    let resolvedVideoId = extractVideoId(url);
+    addVideoCandidates(candidates, seen, resolvedVideoId);
+    for (const candidate of [url.replace("m.facebook.com", "www.facebook.com"), url.replace("www.facebook.com", "m.facebook.com")]) {
+      if (!seen.has(candidate)) {
+        seen.add(candidate);
+        candidates.push(candidate);
+      }
     }
-    candidates.push(url.replace("m.facebook.com", "www.facebook.com"));
-    candidates.push(url.replace("www.facebook.com", "m.facebook.com"));
 
     let info: ReturnType<typeof extract> = {};
     let lastErr: string | undefined;
-    for (const candidate of candidates) {
+    for (let i = 0; i < candidates.length; i++) {
+      const candidate = candidates[i];
       const uas = /m\.facebook\.com/i.test(candidate)
-        ? [UA_CRAWLER, UA_MOBILE, UA_DESKTOP]
-        : [UA_CRAWLER, UA_DESKTOP, UA_MOBILE];
+        ? [UA_EXTERNALHIT, UA_CRAWLER, UA_MOBILE, UA_DESKTOP]
+        : [UA_EXTERNALHIT, UA_CRAWLER, UA_DESKTOP, UA_MOBILE];
       for (const ua of uas) {
         try {
-          const html = await fetchHtml(candidate, ua);
+          const { html, finalUrl } = await fetchHtml(candidate, ua);
+          const discoveredId = extractVideoId(finalUrl) ?? extractVideoId(html);
+          if (discoveredId && discoveredId !== resolvedVideoId) {
+            resolvedVideoId = discoveredId;
+            addVideoCandidates(candidates, seen, discoveredId);
+          }
           const d = extract(html);
           info = {
             title: info.title ?? d.title,
@@ -185,9 +185,14 @@ Deno.serve(async (req) => {
       if (info.hd || info.sd) break;
     }
 
+    if (!info.hd && !info.sd && resolvedVideoId) {
+      const directMedia = await probeCrawlerMedia(resolvedVideoId);
+      if (directMedia) info = { ...info, hd: directMedia, sd: directMedia };
+    }
+
     if (!info.hd && !info.sd) {
       throw new Error(
-        `Não foi possível extrair o vídeo. ${lastErr ? `(${lastErr}) ` : ""}Verifique se o vídeo é público e tente novamente.`,
+        `Não foi possível acessar o arquivo deste vídeo pelo Facebook no momento. ${lastErr ? `(${lastErr}) ` : ""}Tente novamente ou use outro link público do mesmo vídeo.`,
       );
     }
 
