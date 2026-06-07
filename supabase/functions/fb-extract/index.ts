@@ -14,6 +14,10 @@ const UA_CRAWLER =
 const UA_EXTERNALHIT =
   "facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.php)";
 
+const MAX_CANDIDATES = 6;
+const MAX_FETCHES = 10;
+const FUNCTION_DEADLINE_MS = 28000;
+
 function decode(s: string) {
   const decoded = s
     .replace(/\\u0025/g, "%")
@@ -82,7 +86,7 @@ function extract(html: string) {
   return { hd, sd, thumbnail, title };
 }
 
-async function fetchHtml(url: string, ua: string) {
+async function fetchHtml(url: string, ua: string, signal: AbortSignal) {
   const r = await fetch(url, {
     headers: {
       "user-agent": ua,
@@ -90,13 +94,13 @@ async function fetchHtml(url: string, ua: string) {
       accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
     },
     redirect: "follow",
-    signal: AbortSignal.timeout(8000),
+    signal: AbortSignal.any([signal, AbortSignal.timeout(5500)]),
   });
   if (!r.ok) throw new Error(`Facebook respondeu ${r.status}`);
   return { html: await r.text(), finalUrl: r.url };
 }
 
-async function probeCrawlerMedia(videoId: string) {
+async function probeCrawlerMedia(videoId: string, signal: AbortSignal) {
   const mediaUrl = `https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=${videoId}`;
   const r = await fetch(mediaUrl, {
     method: "HEAD",
@@ -105,7 +109,7 @@ async function probeCrawlerMedia(videoId: string) {
       referer: "https://www.facebook.com/",
     },
     redirect: "follow",
-    signal: AbortSignal.timeout(6000),
+    signal: AbortSignal.any([signal, AbortSignal.timeout(4500)]),
   }).catch(() => undefined);
   const type = r?.headers.get("content-type") ?? "";
   const disposition = r?.headers.get("content-disposition") ?? "";
