@@ -89,12 +89,23 @@ export function Downloader() {
           value={url}
           onChange={(e) => setUrl(e.target.value)}
           placeholder="Cole o link do vídeo, Reel ou Story do Facebook..."
-          className="h-14 w-full rounded-xl border border-input bg-card pl-12 pr-12 text-base text-foreground shadow-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
+          className={`h-14 w-full rounded-xl border border-input bg-card pl-12 text-base text-foreground shadow-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 ${url.trim() ? "pr-20" : "pr-12"}`}
         />
+        {url.trim() && (
+          <button
+            onClick={() => setUrl("")}
+            className="absolute right-12 top-1/2 -translate-y-1/2 rounded-md p-2 text-muted-foreground hover:bg-muted hover:text-foreground"
+            aria-label="Limpar"
+            type="button"
+          >
+            <X className="h-5 w-5" />
+          </button>
+        )}
         <button
           onClick={handlePaste}
           className="absolute right-3 top-1/2 -translate-y-1/2 rounded-md p-2 text-muted-foreground hover:bg-muted hover:text-foreground"
           aria-label="Colar"
+          type="button"
         >
           <ClipboardPaste className="h-5 w-5" />
         </button>
